@@ -1,0 +1,96 @@
+<div class="panel panel-primary">
+        <div class="panel-heading">
+            {{title}}
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-2">Filter By:</div>
+                <div class="col-md-4">
+                    <input type="text" [(ngModel)]="filterText" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Filtered By:{{filterText}}</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    Please see the Order details below
+                </div>
+                
+                <button class="btn btn-primary glyphicon glyphicon-th-large col-md-1" (click)="enableView('grid')" (disabled)="activeView==='grid'"></button>
+                <button class="btn btn-primary glyphicon glyphicon-list-alt col-md-1" (click)="enableView('list')" (disabled)="activeView==='list'"></button>
+                
+            </div>
+            <div class="row" *ngIf="activeView==='grid'">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Order Id</th>
+                                <th>Date</th>
+                                <th>Product</th>
+                                <th>Ship To</th>
+                                <th>Cost</th>
+                                <th>Status</th>
+                                <th>Shipment Tracking</th>
+    
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let order of orders">
+
+                                <td>{{order.orderID}}</td>
+                                <td>{{order.orderDate}}</td>
+                                <td>{{order.productDescription}}</td>
+                                <td>{{order.shipTo}}</td>
+                                <td>{{order.cost|currency}}</td>
+                                <td>{{order.status}}</td>
+                                <td>{{order.shipmentTracking}}</td>
+    
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>    
+            </div>
+    
+            <div class="row" *ngIf="activeView==='list'">
+                <div *ngFor="let order of orders">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                                Order : {{order.orderID}}
+                        </div>               
+                        <table class="table">
+                            <tbody>                                
+                                <tr>
+                                    <td class="order-header">Date</td>
+                                    <td>{{order.orderDate}}</td>
+                                        
+                                </tr>
+                                <tr>
+                                    <td class="order-header">Product</td>                                 
+                                    <td>{{order.productDescription}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="order-header">Ship To</td>
+                                    <td>{{order.shipTo}}</td></tr>
+                                <tr>
+                                    <td class="order-header">Cost</td>
+                                    <td>{{order.cost|currency}}</td></tr>
+                                <tr>
+                                    <td class="order-header">Status</td>
+                                    <td>{{order.status}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="order-header">Shipment Tracking</td>
+                                    <td>{{order.shipmentTracking}}</td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </div>

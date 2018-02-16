@@ -1,0 +1,97 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        {{title}}
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-2">Filter By:</div>
+            <div class="col-md-4">
+                <input type="text" [(ngModel)]="filterText" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Filtered By:{{filterText}}</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                Please see the Product details below
+            </div>            
+            <button class="btn btn-primary glyphicon glyphicon-th-large col-md-1" (click)="enableView('grid')" (disabled)="activeView==='grid'"></button>
+            <button class="btn btn-primary glyphicon glyphicon-list-alt col-md-1" (click)="enableView('list')" (disabled)="activeView==='list'"></button>
+        </div>
+        <div class="row" *ngIf="activeView==='grid'">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <button class="btn btn-success" (click)="toggleImage()">{{showImage ? "Hide Image" : "Show Image"}}</button>
+                            <th>Product</th>
+                            <th>Code</th>
+                            <th>Available</th>
+                            <th>Price</th>
+                            <th>Star Rating</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of products">
+                            <td>
+                                <img [src]="product.imageUrl" *ngIf="showImage" />
+                            </td>
+                            <td><a [routerLink]="['/products',product.productId]"
+                                [queryParams]="{name:product.productName,desc:product.description,img:product.imageUrl}">
+                                {{product.productName|uppercase}}</a></td>
+                            <td>{{product.productCode}}</td>
+                            <td>{{product.releaseDate}}</td>
+                            <td>{{product.price}}</td>
+                            <td><learn-star [rating]="product.starRating"
+                                (ratingClicked)="onRatingClicked($event)"></learn-star></td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="row" *ngIf="activeView==='list'">
+            <button class="btn btn-success" (click)="toggleImage()">{{showImage ? "Hide Image" : "Show Image"}}</button>
+            <div *ngFor="let product of products">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Product : {{product.productCode}}
+                    </div>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="product-header">Image</td>
+                                <td><img [src]="product.imageUrl" *ngIf="showImage" /></td>
+                            </tr>
+                            <tr>
+                                <td class="product-header">Product</td>
+                                <td><a [routerLink]="['/products',product.productId]" 
+                                    [queryParams]="{name:product.productName,desc:product.description,img:product.imageUrl}">
+                                    {{product.productName|uppercase}}</a></td>
+                            </tr>                            
+                            <tr>
+                                <td class="product-header">Available</td>
+                                <td>{{product.releaseDate}}</td>
+                            </tr>
+                            <tr>
+                                <td class="product-header">Price</td>
+                                <td>{{product.price}}</td>
+                            </tr>
+                            <tr>
+                                <td class="product-header">Star Rating</td>
+                                <td><learn-star [rating]="product.starRating"
+                                    (ratingClicked)="onRatingClicked($event)"></learn-star></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
